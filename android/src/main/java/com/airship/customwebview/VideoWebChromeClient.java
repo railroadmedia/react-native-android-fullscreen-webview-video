@@ -21,7 +21,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.ThemedReactContext;
 
 import android.view.ViewGroup.LayoutParams;
-
+import android.content.res.Resources;
 /**
  * Provides support for full-screen video on Android
  */
@@ -75,7 +75,14 @@ public class VideoWebChromeClient extends WebChromeClient {
     if (mVideoView == null) {
       return;
     }
-    mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    
+    Resources res = mActivity.getResources();
+    boolean tabletSize = res.getBoolean(R.bool.isTablet);
+    if (tabletSize) {
+      mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    } else {
+      mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
     ((View) mWebView.getRootView()).setVisibility(View.VISIBLE);
     mVideoView.setVisibility(View.GONE);
 
