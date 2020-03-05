@@ -223,7 +223,9 @@ public class CustomWebViewManager extends SimpleViewManager<WebView> {
 
             @JavascriptInterface
             public void postMessage(String message) {
-                mContext.onMessage(message);
+                WritableMap eventData = Arguments.createMap();
+				eventData.putString("data", message);
+				dispatchEvent(this, new TopMessageEvent(this.getId(), eventData));
             }
         }
 
