@@ -223,9 +223,7 @@ public class CustomWebViewManager extends SimpleViewManager<WebView> {
 
             @JavascriptInterface
             public void postMessage(String message) {
-                WritableMap eventData = Arguments.createMap();
-				eventData.putString("data", message);
-				dispatchEvent(this, new TopMessageEvent(this.getId(), eventData));
+                mContext.onMessage(message);
             }
         }
 
@@ -316,7 +314,9 @@ public class CustomWebViewManager extends SimpleViewManager<WebView> {
         }
 
         public void onMessage(String message) {
-            dispatchEvent(this, new TopMessageEvent(this.getId(), message));
+            WritableMap eventData = Arguments.createMap();
+			eventData.putString("data", message);
+			dispatchEvent(this, new TopMessageEvent(this.getId(), eventData));
         }
 
         protected void cleanupCallbacksAndDestroy() {
